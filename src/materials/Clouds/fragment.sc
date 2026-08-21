@@ -1,4 +1,5 @@
 $input v_color0
+
 #if NL_CLOUD_TYPE >= 2
   $input v_color1, v_color2, v_fogColor
 #endif
@@ -10,111 +11,244 @@ $input v_color0
 
 uniform vec4 CameraPosition;
 
-#define NL_CLOUD_PARAMS(x) NL_CLOUD2##x##STEPS, NL_CLOUD2##x##THICKNESS, NL_CLOUD2##x##RAIN_THICKNESS, NL_CLOUD2##x##VELOCITY, NL_CLOUD2##x##SCALE, NL_CLOUD2##x##DENSITY, NL_CLOUD2##x##SHAPE
+#define NL_CLOUD_PARAMS(x) \
+  NL_CLOUD2##x##STEPS, \
+  NL_CLOUD2##x##THICKNESS, \
+  NL_CLOUD2##x##RAIN_THICKNESS, \
+  NL_CLOUD2##x##VELOCITY, \
+  NL_CLOUD2##x##SCALE, \
+  NL_CLOUD2##x##DENSITY, \
+  NL_CLOUD2##x##SHAPE
 
 void main() {
+
+  // ==========================================================
+  // VANILLA / SIMPLE CLOUDS
+  // ==========================================================
 
   #if NL_CLOUD_TYPE == 0 || NL_CLOUD_TYPE == 1
 
     gl_FragColor = v_color0;
 
+
+  // ==========================================================
+  // ROUNDED CLOUDS
+  // ==========================================================
+
   #elif NL_CLOUD_TYPE == 2
 
-    vec3 vDir = normalize(v_color0.xyz);
-    vec3 cloudPos = v_color0.xyz;
-    cloudPos.xz += CameraPosition.xz;
+    vec3 vDir =
+      normalize(v_color0.xyz);
 
-    vec4 color = renderCloudsRounded(
-      vDir,
-      cloudPos,
-      v_color1.w,
-      v_color2.w,
-      v_color2.rgb,
-      v_color1.rgb,
-      NL_CLOUD_PARAMS(_)
-    );
+    vec3 cloudPos =
+      v_color0.xyz;
 
-    #ifdef NL_CLOUD2_LAYER2
-      vec2 parallax = vDir.xz / abs(vDir.y) * NL_CLOUD2_LAYER2_OFFSET;
+    cloudPos.xz +=
+      CameraPosition.xz;
 
-      vec3 offsetPos = cloudPos;
-      offsetPos.xz += parallax;
-
-      vec4 color2 = renderCloudsRounded(
+    vec4 color =
+      renderCloudsRounded(
         vDir,
-        offsetPos,
-        v_color1.a,
-        v_color2.a*2.0,
+        cloudPos,
+        v_color1.w,
+        v_color2.w,
         v_color2.rgb,
         v_color1.rgb,
-        NL_CLOUD_PARAMS(_LAYER2_)
+        NL_CLOUD_PARAMS(_)
       );
 
-      color = mix(
-        color2,
-        color,
-        0.2 + 0.8*color.a
-      );
+    #ifdef NL_CLOUD2_LAYER2
+
+      vec2 parallax =
+        vDir.xz/
+        abs(vDir.y)*
+        NL_CLOUD2_LAYER2_OFFSET;
+
+      vec3 offsetPos =
+        cloudPos;
+
+      offsetPos.xz +=
+        parallax;
+
+      vec4 color2 =
+        renderCloudsRounded(
+          vDir,
+          offsetPos,
+          v_color1.a,
+          v_color2.a*2.0,
+          v_color2.rgb,
+          v_color1.rgb,
+          NL_CLOUD_PARAMS(_LAYER2_)
+        );
+
+      color =
+        mix(
+          color2,
+          color,
+          0.2+
+          0.8*color.a
+        );
+
     #endif
+
 
     #ifdef NL_AURORA
-      color += renderAurora(
-        cloudPos,
-        v_color2.a,
-        v_color1.a,
-        v_fogColor
-      )*(1.0-0.95*color.a);
+
+      color +=
+        renderAurora(
+          cloudPos,
+          v_color2.a,
+          v_color1.a,
+          v_fogColor
+        )*
+        (1.0-0.95*color.a);
+
     #endif
 
-    color.a *= v_color0.a;
-    color.rgb = colorCorrection(color.rgb);
+    color.a *=
+      v_color0.a;
 
-    gl_FragColor = color;
+    color.rgb =
+      colorCorrection(
+        color.rgb
+      );
+
+    gl_FragColor =
+      color;
+
+
+  // ==========================================================
+  // VORONOI CLOUDS
+  // ==========================================================
 
   #elif NL_CLOUD_TYPE == 3
 
-    vec3 vDir = normalize(v_color0.xyz);
+    vec3 vDir =
+      normalize(v_color0.xyz);
 
-    vDir.xz *= 0.3 + v_color0.w;
+    vDir.xz *=
+      0.3+
+      v_color0.w;
 
-    vec2 p = (vDir.xz)/(0.015 + 0.035*abs(vDir.y));
-    p += 0.035*CameraPosition.xz;
+    vec2 p =
+      vDir.xz/
+      (
+        0.015+
+        0.035*
+        abs(vDir.y)
+      );
 
-    vec4 color = renderClouds(
-      p,
-      v_color2.w,
-      v_color1.w,
-      v_color2.rgb,
-      v_color1.rgb,
-      NL_CLOUD3_SCALE,
-      NL_CLOUD3_SPEED,
-      NL_CLOUD3_SHADOW
-    );
+    p +=
+      0.035*
+      CameraPosition.xz;
 
-    #ifdef NL_AURORA
-      p.xy *= 34.7;
-
-      color += renderAurora(
-        p.xyy,
+    vec4 color =
+      renderClouds(
+        p,
         v_color2.w,
         v_color1.w,
-        v_fogColor
-      )*(1.0-0.95*color.a);
+        v_color2.rgb,
+        v_color1.rgb,
+        NL_CLOUD3_SCALE,
+        NL_CLOUD3_SPEED,
+        NL_CLOUD3_SHADOW
+      );
+
+
+    #ifdef NL_AURORA
+
+      p.xy *=
+        34.7;
+
+      color +=
+        renderAurora(
+          p.xyy,
+          v_color2.w,
+          v_color1.w,
+          v_fogColor
+        )*
+        (1.0-0.95*color.a);
+
     #endif
 
-    color.a *= smoothstep(
-      0.0,
-      0.7,
-      vDir.y
-    );
+    color.a *=
+      smoothstep(
+        0.0,
+        0.7,
+        vDir.y
+      );
 
-    color.rgb = colorCorrection(color.rgb);
+    color.rgb =
+      colorCorrection(
+        color.rgb
+      );
 
-    gl_FragColor = color;
+    gl_FragColor =
+      color;
 
-  #elif NL_CLOUD_TYPE >= 4
 
-    gl_FragColor = v_color0;
+  // ==========================================================
+  // LUNARWAKE CLOUDS
+  // ==========================================================
+
+  #elif NL_CLOUD_TYPE == 4
+
+    vec3 vDir =
+      normalize(
+        v_color0.xyz
+      );
+
+    vec3 cloudPos =
+      v_color0.xyz;
+
+    cloudPos.xz +=
+      CameraPosition.xz;
+
+    vec4 color =
+      renderCloudsLunarWake(
+        vec3(
+          v_color2.rgb,
+          0.0
+        ),
+        cloudPos,
+        v_color2.w,
+        v_color1.w
+      );
+
+
+    #ifdef NL_AURORA
+
+      color +=
+        renderAurora(
+          cloudPos,
+          v_color2.w,
+          v_color1.w,
+          v_fogColor
+        )*
+        (1.0-0.95*color.a);
+
+    #endif
+
+    color.a *=
+      v_color0.a;
+
+    color.rgb =
+      colorCorrection(
+        color.rgb
+      );
+
+    gl_FragColor =
+      color;
+
+
+  // ==========================================================
+  // FALLBACK
+  // ==========================================================
+
+  #else
+
+    gl_FragColor =
+      v_color0;
 
   #endif
 }
