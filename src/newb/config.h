@@ -175,6 +175,7 @@
 #define NL_CLOUD4_SATURATION 1.05 // 0.0 grayscale ~ 2.0 vibrant
 #define NL_CLOUD4_SOFTNESS   0.08 // 0.01 sharp ~ 0.2 soft
 #define NL_CLOUD4_THRESHOLD  0.58 // 0.3 more clouds ~ 0.8 fewer clouds
+#define NL_CLOUD4_SHADOW     0.35 // 0.0 no cloud shadow ~ 1.0 strong shadow
 
 /* Aurora settings */
 #define NL_AURORA 1.2
