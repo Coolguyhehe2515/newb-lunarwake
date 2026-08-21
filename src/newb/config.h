@@ -122,13 +122,19 @@
 #define NL_UNDERWATER_TINT vec3(0.9,1.0,0.9) // fog tint color when underwater
 
 /* Cloud type */
-#define NL_CLOUD_TYPE 1 // 0:vanilla, 1:soft, 2:rounded, 3:realistic
+#define NL_CLOUD_TYPE 0 // 0:vanilla, 1:soft, 2:rounded, 3:realistic
 
 /* Vanilla cloud settings - make sure to remove clouds.png when using this */
 #define NL_CLOUD0_THICKNESS 2.1      // 0.5 slim ~ 8.0 fat
 #define NL_CLOUD0_RAIN_THICKNESS 4.0 // 0.5 slim ~ 8.0 fat
 #define NL_CLOUD0_OPACITY 0.9        // 0.0 invisible ~ 1.0 opaque
 #define NL_CLOUD0_MULTILAYER         // [toggle] extra cloud layer
+
+/* Box cloud reflection settings - used in water when NL_CLOUD_TYPE is 0 */
+#define NL_CLOUDBOX_SCALE 0.02      // 0.003 large cells ~ 0.2 tiny cells
+#define NL_CLOUDBOX_SPEED 0.04      // 0.0 static ~ 0.4 fast moving
+#define NL_CLOUDBOX_OCTAVES 3       // 1 blocky/cheap ~ 6 detailed/costly
+#define NL_CLOUDBOX_THRESHOLD 0.6   // 0.3 more clouds ~ 0.8 less clouds
 
 /* Soft cloud settings */
 #define NL_CLOUD1_SCALE vec2(0.016, 0.022) // 0.003 large ~ 0.2 tiny
@@ -218,67 +224,10 @@
 #define NL_LAVA_NOISE_SPEED 0.2  // 0.0 still ~ 0.8 fast
 
 /*
-  NEWB SHADER SUBPACK CONFIG
-  This part contains custom configuration options for each subpack.
-
-  If a value is already defined,
-  then you must undefine it before modifying:
-  eg: #undef OPTION_NAME
-
-  Subpack names and flags are inside `pack_config.toml`.
-  Build tool will enable corresponding flags when compiling.
+  Only one subpack (Default) ships, so there's nothing to switch here
+  anymore. If you want a lighter build for a weaker device, just comment
+  out NL_FOG / NL_PLANTS_WAVE / NL_LANTERN_WAVE / NL_WATER_WAVE /
+  NL_UNDERWATER_WAVE above directly and rebuild.
 */
-
-#ifdef LITE
-  #define NO_WAVE
-  #undef NL_GLOW_SHIMMER
-  #undef NL_LAVA_NOISE
-  #undef NL_WEATHER_SPECK
-  #undef NL_SHOOTING_STAR
-  #undef NL_CLOUD_AURORA_REFLECTION
-  #undef NL_UNDERWATER_STREAKS
-  #undef NL_RAIN_MIST_OPACITY
-  #undef NL_CLOUDY_FOG
-  #undef NL_ENTITY_EDGE_HIGHLIGHT
-#endif
-
-#ifdef NO_WAVE_NO_FOG
-  #define NO_WAVE
-  #define NO_FOG
-#endif
-
-#ifdef NO_FOG
-  #undef NL_FOG
-#endif
-
-#ifdef NO_WAVE
-  #undef NL_PLANTS_WAVE
-  #undef NL_LANTERN_WAVE
-  #undef NL_UNDERWATER_WAVE
-  #undef NL_WATER_WAVE
-  #undef NL_RAIN_MIST_OPACITY
-#endif
-
-#ifdef CHUNK_ANIM
-  #define NL_CHUNK_LOAD_ANIM 100.0
-#endif
-
-#ifdef ROUNDED_CLOUDS
-  #undef NL_CLOUD_TYPE
-  #define NL_CLOUD_TYPE 2
-  #undef NL_CLOUD_SHADOW // TODO: Cloud shadow for rounded, realistic clouds
-#endif
-
-#ifdef BOX_CLOUDS
-  #undef NL_CLOUD_TYPE
-  #define NL_CLOUD_TYPE 0
-  #undef NL_CLOUD_SHADOW
-#endif
-
-#ifdef REALISTIC_CLOUDS
-  #undef NL_CLOUD_TYPE
-  #define NL_CLOUD_TYPE 3
-  #undef NL_CLOUD_SHADOW
-#endif
 
 #endif
