@@ -13,7 +13,8 @@ uniform vec4 CameraPosition;
 #define NL_CLOUD_PARAMS(x) NL_CLOUD2##x##STEPS, NL_CLOUD2##x##THICKNESS, NL_CLOUD2##x##RAIN_THICKNESS, NL_CLOUD2##x##VELOCITY, NL_CLOUD2##x##SCALE, NL_CLOUD2##x##DENSITY, NL_CLOUD2##x##SHAPE
 
 void main() {
-  #if NL_CLOUD_TYPE == 0 || NL_CLOUD_TYPE == 1 || NL_CLOUD_TYPE == 4
+
+  #if NL_CLOUD_TYPE == 0 || NL_CLOUD_TYPE == 1
 
     gl_FragColor = v_color0;
 
@@ -21,7 +22,6 @@ void main() {
 
     vec3 vDir = normalize(v_color0.xyz);
     vec3 cloudPos = v_color0.xyz;
-
     cloudPos.xz += CameraPosition.xz;
 
     vec4 color = renderCloudsRounded(
@@ -74,14 +74,13 @@ void main() {
   #elif NL_CLOUD_TYPE == 3
 
     vec3 vDir = normalize(v_color0.xyz);
-    vec3 cloudPos = v_color0.xyz;
 
     vDir.xz *= 0.3 + v_color0.w;
 
     vec2 p = (vDir.xz)/(0.015 + 0.035*abs(vDir.y));
     p += 0.035*CameraPosition.xz;
 
-    vec4 clouds = renderClouds(
+    vec4 color = renderClouds(
       p,
       v_color2.w,
       v_color1.w,
@@ -91,8 +90,6 @@ void main() {
       NL_CLOUD3_SPEED,
       NL_CLOUD3_SHADOW
     );
-
-    vec4 color = clouds;
 
     #ifdef NL_AURORA
       p.xy *= 34.7;
@@ -114,6 +111,10 @@ void main() {
     color.rgb = colorCorrection(color.rgb);
 
     gl_FragColor = color;
+
+  #elif NL_CLOUD_TYPE >= 4
+
+    gl_FragColor = v_color0;
 
   #endif
 }
