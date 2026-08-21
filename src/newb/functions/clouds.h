@@ -165,6 +165,54 @@ vec4 renderClouds(vec2 p, float t, float rain, vec3 horizonCol, vec3 zenithCol, 
   return col;
 }
 
+vec4 renderCloudsLunarWake(
+    nl_skycolor skycol,
+    vec3 pos,
+    highp float t,
+    float rain
+) {
+  pos.xz *= NL_CLOUD4_SCALE;
+
+  t *= NL_CLOUD4_SPEED;
+
+  vec2 p = pos.xz;
+
+  float n1 = cloudsNoiseVr(p, t);
+  float n2 = cloudsNoiseVr(p * 0.55 + vec2(4.7, 2.3), t * 0.65);
+
+  float density = mix(n1, n2, 0.35);
+
+  density = smoothstep(
+    NL_CLOUD4_THRESHOLD - NL_CLOUD4_SOFTNESS,
+    NL_CLOUD4_THRESHOLD + NL_CLOUD4_SOFTNESS,
+    density
+  );
+
+  density *= 1.0 - 0.35 * rain;
+
+  vec3 col = mix(
+    skycol.horizonEdge,
+    skycol.zenith,
+    0.45
+  );
+
+  col *= NL_CLOUD4_BRIGHTNESS;
+
+  float shade = smoothstep(
+    0.15,
+    0.85,
+    n2
+  );
+
+  col *= mix(
+    1.0 - NL_CLOUD4_SHADOW,
+    1.0,
+    shade
+  );
+
+  return vec4(col, density * NL_CLOUD4_OPACITY);
+}
+
 // aurora is rendered on clouds layer
 #ifdef NL_AURORA
 vec4 renderAurora(vec3 p, float t, float rain, vec3 FOG_COLOR) {
