@@ -12,8 +12,7 @@
         //#define PLANTS_WAVE  -> this is OFF
 
   COLOR VALUES
-  - Color format:
-      vec3(red,green,blue)
+  - Color format: vec3(red,green,blue)
   - 1.0 means 100%, 0.0 means 0%
   - eg: vec3(1.0,1.0,0.0) = yellow
 
@@ -41,36 +40,36 @@
 
 /* Lighting */
 #define NL_SUNLIGHT_INTENSITY   3.3  // 1.0 weak ~ 5.0 bright
-#define NL_TORCHLIGHT_INTENSITY 1.0  // 0.5 weak ~ 3.0 bright
+#define NL_TORCHLIGHT_INTENSITY 0.7  // 0.5 weak ~ 3.0 bright
 #define NL_SHADOW_INTENSITY     0.7  // 0.0 no shadow ~ 1.0 strong shadow
-#define NL_MIN_LIGHTING_BOOST   1.5  // 1.0 minimal lighting boost for dark areas ~ 3.0 brighter dark areas
-//#define NL_BLINKING_TORCH       // [toggle] flickering light
-#define NL_CLOUD_SHADOW            // [toggle] cloud shadow (simple clouds only)
+#define NL_MIN_LIGHTING_BOOST   1.0  // 1.0 minimal lighting boost for dark areas ~ 3.0 brighter dark areas
+//#define NL_BLINKING_TORCH  // [toggle] flickering light
+#define NL_CLOUD_SHADOW      // [toggle] cloud shadow (simple clouds only)
 
 
 /* Ambient light for nether/end */
-#define NL_NETHER_AMBIENT vec3(3.0,2.16,1.89)
+#define NL_NETHER_AMBIENT vec3(0.141,0.0,0.0)
 #define NL_END_AMBIENT    vec3(1.98,1.25,2.3)
 
 
 /* Sun/moon light color */
-#define NL_DAWN_SUNLIGHT_COL   vec3(1.0,0.4,0.1)
+#define NL_DAWN_SUNLIGHT_COL   vec3(1.0,0.635,0.0)
 #define NL_NOON_SUNLIGHT_COL   vec3(1.0,0.75,0.57)
 #define NL_NIGHT_MOONLIGHT_COL vec3(0.01,0.03,0.2)
 
 
 /* Torch colors */
-#define NL_OVERWORLD_TORCH_COL   vec3(1.0,0.52,0.18)
+#define NL_OVERWORLD_TORCH_COL   vec3(1.0,0.482,0.0)
 #define NL_UNDERWATER_TORCH_COL  vec3(1.0,0.52,0.18)
-#define NL_NETHER_TORCH_COL      vec3(1.0,0.52,0.18)
-#define NL_END_TORCH_COL         vec3(1.0,0.52,0.18)
+#define NL_NETHER_TORCH_COL      vec3(1.0,0.482,0.0)
+#define NL_END_TORCH_COL         vec3(1.0,0.482,0.0)
 
 
 /* Fog */
 #define NL_FOG 1.0                // [toggle] 0.1 subtle ~ 1.0 blend with sky completely
 #define NL_MIST_DENSITY 0.18      // 0.0 no mist ~ 1.0 misty
 #define NL_RAIN_MIST_OPACITY 0.12 // [toggle] 0.04 very subtle ~ 0.5 thick rain mist blow
-#define NL_CLOUDY_FOG 0.1         // [toggle] 0.0 subtle ~ 0.8 dense fog clouds
+#define NL_CLOUDY_FOG 0.1         // [toggle] 0.0 subtle - 0.8 dense fog clouds
 
 
 /* Sky */
@@ -79,17 +78,17 @@
 #define NL_SKY_RAIN_MIX_FACTOR 0.9
 
 /* Sky colors - zenith=top, horizon=bottom */
-#define NL_DAWN_ZENITH_COL   vec3(0.1,0.4,0.7)
-#define NL_DAWN_HORIZON_COL  vec3(3.0,0.4,0.4)
-#define NL_DAWN_EDGE_COL     vec3(2.0,0.8,0.8)
+#define NL_DAWN_ZENITH_COL   vec3(0.42,0.20,0.12)
+#define NL_DAWN_HORIZON_COL  vec3(0.929,0.529,0.035)
+#define NL_DAWN_EDGE_COL     vec3(2.40,1.35,0.38)
 
 #define NL_DAY_ZENITH_COL    vec3(0.3,0.9,2.0)
 #define NL_DAY_HORIZON_COL   vec3(1.0,1.6,1.8)
 #define NL_DAY_EDGE_COL      vec3(1.44,1.56,1.62)
 
-#define NL_NIGHT_ZENITH_COL  vec3(0.008,0.048,0.08)
-#define NL_NIGHT_HORIZON_COL vec3(0.02,0.06,0.1)
-#define NL_NIGHT_EDGE_COL    vec3(0.04,0.08,0.1)
+#define NL_NIGHT_ZENITH_COL  vec3(0.14,0.14,0.14)
+#define NL_NIGHT_HORIZON_COL vec3(0.10,0.10,0.10)
+#define NL_NIGHT_EDGE_COL    vec3(0.06,0.06,0.06)
 
 #define NL_RAIN_ZENITH_COL   vec3(0.47,0.51,0.56)
 #define NL_RAIN_HORIZON_COL  vec3(0.6,0.6,0.6)
@@ -130,7 +129,7 @@
 
 
 /* Underwater */
-#define NL_UNDERWATER_BRIGHTNESS 0.8         // 0.0 dark ~ 3.0 bright
+#define NL_UNDERWATER_BRIGHTNESS 0.5         // 0.0 dark ~ 3.0 bright
 #define NL_CAUSTIC_INTENSITY 1.9             // 0.5 weak ~ 5.0 bright
 #define NL_UNDERWATER_WAVE 0.1               // [toggle] 0.02 subtle ~ 0.6 trippy
 #define NL_UNDERWATER_STREAKS 1.0            // [toggle] 0.8 subtle - 2.0 bright streaks from top
@@ -144,12 +143,19 @@
 /* Vanilla cloud settings - make sure to remove clouds.png when using this */
 #define NL_CLOUD0_THICKNESS 2.1      // 0.5 slim ~ 8.0 fat
 #define NL_CLOUD0_RAIN_THICKNESS 4.0 // 0.5 slim ~ 8.0 fat
-#define NL_CLOUD0_OPACITY 0.9        // 0.0 invisible ~ 1.0 opaque
+#define NL_CLOUD0_OPACITY 0.7        // 0.0 invisible ~ 1.0 opaque
 #define NL_CLOUD0_MULTILAYER         // [toggle] extra cloud layer
 
 
+/* Box cloud reflection */
+#define NL_CLOUDBOX_SCALE 0.02
+#define NL_CLOUDBOX_SPEED 0.04
+#define NL_CLOUDBOX_OCTAVES 3
+#define NL_CLOUDBOX_THRESHOLD 0.6
+
+
 /* Soft cloud settings */
-#define NL_CLOUD1_SCALE vec2(0.016, 0.022) // 0.003 large ~ 0.2 tiny
+#define NL_CLOUD1_SCALE vec2(0.016,0.022) // 0.003 large ~ 0.2 tiny
 #define NL_CLOUD1_DEPTH 1.3                // 0.0 no bump ~ 10.0 large bumps
 #define NL_CLOUD1_SPEED 0.04               // 0.0 static ~ 0.4 fast moving
 #define NL_CLOUD1_DENSITY 0.54             // 0.1 less clouds ~ 0.8 more clouds
@@ -160,23 +166,23 @@
 #define NL_CLOUD2_THICKNESS 2.1            // 0.5 slim ~ 5.0 fat
 #define NL_CLOUD2_RAIN_THICKNESS 2.5       // 0.5 slim ~ 5.0 fat
 #define NL_CLOUD2_STEPS 5                  // 3 low quality ~ 16 high quality
-#define NL_CLOUD2_SCALE vec2(0.033, 0.033) // 0.003 large ~ 0.3 tiny
-#define NL_CLOUD2_SHAPE vec2(0.5, 0.4)     // 0.0 round ~ 1.0 box vec2(horizontal shape, vertical shape)
+#define NL_CLOUD2_SCALE vec2(0.033,0.033) // 0.003 large ~ 0.3 tiny
+#define NL_CLOUD2_SHAPE vec2(0.5,0.4)      // 0.0 round ~ 1.0 box vec2(horizontal shape, vertical shape)
 #define NL_CLOUD2_DENSITY 25.0             // 1.0 blurry ~ 100.0 sharp
 #define NL_CLOUD2_VELOCITY 0.8             // 0.0 static ~ 4.0 very fast
-//#define NL_CLOUD2_LAYER2                      // [toggle] extra cloud layer
-#define NL_CLOUD2_LAYER2_OFFSET 143.0           // 30.0 near ~ 300.0 very high
-#define NL_CLOUD2_LAYER2_THICKNESS 2.5          // 0.7 slim ~ 5.0 fat
-#define NL_CLOUD2_LAYER2_RAIN_THICKNESS 3.0     // 0.7 slim ~ 5.0 fat
-#define NL_CLOUD2_LAYER2_STEPS 3                // 3 low quality ~ 16 high quality
-#define NL_CLOUD2_LAYER2_SCALE vec2(0.03, 0.03) // 0.003 large ~ 0.3 tiny
-#define NL_CLOUD2_LAYER2_SHAPE vec2(0.5, 0.4)   // 0.0 round ~ 1.0 box vec2(horizontal shape, vertical shape)
+//#define NL_CLOUD2_LAYER2               // [toggle] extra cloud layer
+#define NL_CLOUD2_LAYER2_OFFSET 143.0      // 30.0 near ~ 300.0 very high
+#define NL_CLOUD2_LAYER2_THICKNESS 2.5     // 0.7 slim ~ 5.0 fat
+#define NL_CLOUD2_LAYER2_RAIN_THICKNESS 3.0 // 0.7 slim ~ 5.0 fat
+#define NL_CLOUD2_LAYER2_STEPS 3            // 3 low quality ~ 16 high quality
+#define NL_CLOUD2_LAYER2_SCALE vec2(0.03,0.03) // 0.003 large ~ 0.3 tiny
+#define NL_CLOUD2_LAYER2_SHAPE vec2(0.5,0.4)   // 0.0 round ~ 1.0 box vec2(horizontal shape, vertical shape)
 #define NL_CLOUD2_LAYER2_DENSITY 25.0           // 1.0 blurry ~ 100.0 sharp
 #define NL_CLOUD2_LAYER2_VELOCITY 0.8           // 0.0 static ~ 4.0 very fast
 
 
 /* Realistic cloud settings */
-#define NL_CLOUD3_SCALE vec2(0.03, 0.03) // 0.003 large ~ 1.0 tiny
+#define NL_CLOUD3_SCALE vec2(0.03,0.03) // 0.003 large ~ 1.0 tiny
 #define NL_CLOUD3_SPEED 0.005            // 0.0 static ~ 4.0 fast moving
 #define NL_CLOUD3_SHADOW 0.9             // 0.1 subtle ~ 1.0 dark
 #define NL_CLOUD3_SHADOW_OFFSET 0.3      // 0.05 minimal ~ 1.0 large
@@ -196,7 +202,7 @@
 /* Shooting star */
 #define NL_SHOOTING_STAR 1.0        // [toggle] 0.2 dim ~ 1.0 bright
 #define NL_SHOOTING_STAR_PERIOD 6.0 // 0.4 fast ~ 12.0 slow (12 secs)
-#define NL_SHOOTING_STAR_DELAY 64.0 // 0.0 no delay ~ 100.0 long time (100 secs)
+#define NL_SHOOTING_STAR_DELAY 12.0 // 0.0 no delay ~ 100.0 long time (100 secs)
 
 
 /* Galaxy */
@@ -211,43 +217,29 @@
 
 
 /* Sun/Moon */
-#define NL_SUN_SIZE        2.0  // 0.3 tiny ~ 4.0 massive
-#define NL_SUN_SIZE_DAWN   4.0  // 0.3 tiny ~ 4.0 massive
-#define NL_SUN_SIZE_DUSK   3.0  // 0.3 tiny ~ 4.0 massive
+#define NL_SUN_SIZE  2.0           // 0.3 tiny ~ 4.0 massive
+#define NL_SUN_SIZE_DAWN 4.0       // 0.3 tiny ~ 4.0 massive
+#define NL_SUN_SIZE_DUSK 3.0       // 0.3 tiny ~ 4.0 massive
 
-#define NL_MOON_SIZE       2.0  // 0.3 tiny ~ 4.0 massive
-#define NL_MOON_SIZE_DAWN  3.0  // 0.3 tiny ~ 4.0 massive
-#define NL_MOON_SIZE_DUSK  3.0  // 0.3 tiny ~ 4.0 massive
+#define NL_MOON_SIZE 2.0           // 0.3 tiny ~ 4.0 massive
+#define NL_MOON_SIZE_DAWN 3.0      // 0.3 tiny ~ 4.0 massive
+#define NL_MOON_SIZE_DUSK 3.0      // 0.3 tiny ~ 4.0 massive
 
-#define NL_SUN_PATH_YAW    15.0
-#define NL_MOON_PATH_YAW   17.0
+#define NL_SUN_PATH_YAW  15.0      // sun path yaw
+#define NL_MOON_PATH_YAW 17.0      // moon path yaw
 
-#define NL_SUN_PATH_TILT   31.0
-#define NL_MOON_PATH_TILT -28.0
+#define NL_SUN_PATH_TILT  31.0     // sun path tilt
+#define NL_MOON_PATH_TILT -28.0    // moon path tilt
 
-#define NL_SUN_TILT        0.0 // 0.0 no tilt ~ 90.0 tilt of 90 degrees
-#define NL_SUN_TILT_DAWN   45.0 // 0.0 no tilt ~ 90.0 tilt of 90 degrees
-#define NL_SUN_TILT_DUSK   45.0 // 0.0 no tilt ~ 90.0 tilt of 90 degrees
+#define NL_SUN_TILT  0.0          // 0.0 no tilt ~ 90.0 tilt of 90 degrees
+#define NL_SUN_TILT_DAWN 45.0      // 0.0 no tilt ~ 90.0 tilt of 90 degrees
+#define NL_SUN_TILT_DUSK 45.0      // 0.0 no tilt ~ 90.0 tilt of 90 degrees
 
-#define NL_MOON_TILT       00.0 // 0.0 no tilt ~ 90.0 tilt of 90 degrees
-#define NL_MOON_TILT_DAWN  45.0 // 0.0 no tilt ~ 90.0 tilt of 90 degrees
-#define NL_MOON_TILT_DUSK  45.0 // 0.0 no tilt ~ 90.0 tilt of 90 degrees
+#define NL_MOON_TILT 0.0          // 0.0 no tilt ~ 90.0 tilt of 90 degrees
+#define NL_MOON_TILT_DAWN 45.0     // 0.0 no tilt ~ 90.0 tilt of 90 degrees
+#define NL_MOON_TILT_DUSK 45.0     // 0.0 no tilt ~ 90.0 tilt of 90 degrees
 
-#define NL_DAWN_DUSK_RANGE 0.03 // 0.01 narrow window ~ 0.1 wide window
-
-
-/* Player shadow */
-#define NL_PLAYER_SHADOW             // [toggle] blocky fake shadow under the local player
-
-#define NL_PLAYER_EYE_HEIGHT 1.62        // camera height above feet, standing
-#define NL_PLAYER_SHADOW_HEIGHT 1.8      // caster height, controls length vs sun angle
-#define NL_PLAYER_SHADOW_MAX_LENGTH 3.0  // 2.0 short ~ 15.0 very long near sunset
-#define NL_PLAYER_SHADOW_OPACITY 0.70    // 0.0 invisible ~ 1.0 pure black
-
-#define NL_PLAYER_SHADOW_LEG_GAP    0.13
-#define NL_PLAYER_SHADOW_LEG_WIDTH  0.12
-#define NL_PLAYER_SHADOW_BODY_WIDTH 0.22
-#define NL_PLAYER_SHADOW_HEAD_WIDTH 0.16
+#define NL_DAWN_DUSK_RANGE 0.03    // 0.01 narrow window ~ 0.1 wide window
 
 
 /* Fake godrays during sunrise/sunset */
@@ -262,7 +254,7 @@
 
 /* Entity (Actor, ItemInHand) */
 #define NL_ENTITY_BRIGHTNESS     0.65 // 0.1 dark ~ 1.6 bright
-#define NL_ENTITY_EDGE_HIGHLIGHT 0.41 // [toggle] 0.0 no highlight ~ 1.6 bright highlight
+#define NL_ENTITY_EDGE_HIGHLIGHT 0.41 // [toggle] 0.0 no highlight ~ 1.6 bright
 
 
 /* Weather particles */
@@ -272,9 +264,9 @@
 
 
 /* Lava effects */
-#define NL_LAVA_NOISE            // [toggle] darken lava in certain regions
-//#define NL_LAVA_NOISE_BUMP 0.2  // [toggle] 0.1 subtle ~ 0.8 massive waves
-#define NL_LAVA_NOISE_SPEED 0.2   // 0.0 still ~ 0.8 fast
+//#define NL_LAVA_NOISE            // [toggle] darken lava in certain regions
+//#define NL_LAVA_NOISE_BUMP 0.2 // [toggle] 0.1 subtle ~ 0.8 massive waves
+#define NL_LAVA_NOISE_SPEED 0.2  // 0.0 still ~ 0.8 fast
 
 
 /*
@@ -289,11 +281,8 @@
   Build tool will enable corresponding flags when compiling.
 */
 
-
 #ifdef LITE
-
   #define NO_WAVE
-
   #undef NL_GLOW_SHIMMER
   #undef NL_LAVA_NOISE
   #undef NL_WEATHER_SPECK
@@ -303,68 +292,45 @@
   #undef NL_RAIN_MIST_OPACITY
   #undef NL_CLOUDY_FOG
   #undef NL_ENTITY_EDGE_HIGHLIGHT
-
 #endif
-
 
 #ifdef NO_WAVE_NO_FOG
-
   #define NO_WAVE
   #define NO_FOG
-
 #endif
-
 
 #ifdef NO_FOG
-
   #undef NL_FOG
-
 #endif
 
-
 #ifdef NO_WAVE
-
   #undef NL_PLANTS_WAVE
   #undef NL_LANTERN_WAVE
   #undef NL_UNDERWATER_WAVE
   #undef NL_WATER_WAVE
   #undef NL_RAIN_MIST_OPACITY
-
 #endif
-
 
 #ifdef CHUNK_ANIM
-
   #define NL_CHUNK_LOAD_ANIM 100.0
-
 #endif
-
 
 #ifdef ROUNDED_CLOUDS
-
   #undef NL_CLOUD_TYPE
   #define NL_CLOUD_TYPE 2
-  #undef NL_CLOUD_SHADOW
-
+  #undef NL_CLOUD_SHADOW // TODO: Cloud shadow for rounded, realistic clouds
 #endif
 
-
 #ifdef BOX_CLOUDS
-
   #undef NL_CLOUD_TYPE
   #define NL_CLOUD_TYPE 0
   #undef NL_CLOUD_SHADOW
-
 #endif
 
-
 #ifdef REALISTIC_CLOUDS
-
   #undef NL_CLOUD_TYPE
   #define NL_CLOUD_TYPE 3
   #undef NL_CLOUD_SHADOW
-
 #endif
-
 
 #endif
