@@ -138,7 +138,7 @@
 
 
 /* Cloud type */
-#define NL_CLOUD_TYPE 1 // 0:vanilla, 1:soft, 2:rounded, 3:realistic
+#define NL_CLOUD_TYPE 0 // 0:vanilla, 1:soft, 2:rounded, 3:realistic
 
 
 /* Vanilla cloud settings - make sure to remove clouds.png when using this */
@@ -211,13 +211,13 @@
 
 
 /* Sun/Moon */
-#define NL_SUN_SIZE        1.0  // 0.3 tiny ~ 4.0 massive
-#define NL_SUN_SIZE_DAWN   1.0  // 0.3 tiny ~ 4.0 massive
-#define NL_SUN_SIZE_DUSK   1.0  // 0.3 tiny ~ 4.0 massive
+#define NL_SUN_SIZE        2.0  // 0.3 tiny ~ 4.0 massive
+#define NL_SUN_SIZE_DAWN   4.0  // 0.3 tiny ~ 4.0 massive
+#define NL_SUN_SIZE_DUSK   3.0  // 0.3 tiny ~ 4.0 massive
 
-#define NL_MOON_SIZE       1.0  // 0.3 tiny ~ 4.0 massive
-#define NL_MOON_SIZE_DAWN  1.0  // 0.3 tiny ~ 4.0 massive
-#define NL_MOON_SIZE_DUSK  1.0  // 0.3 tiny ~ 4.0 massive
+#define NL_MOON_SIZE       2.0  // 0.3 tiny ~ 4.0 massive
+#define NL_MOON_SIZE_DAWN  3.0  // 0.3 tiny ~ 4.0 massive
+#define NL_MOON_SIZE_DUSK  3.0  // 0.3 tiny ~ 4.0 massive
 
 #define NL_SUN_PATH_YAW    15.0
 #define NL_MOON_PATH_YAW   17.0
