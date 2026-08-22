@@ -1,7 +1,9 @@
-$input v_color0, v_color1, v_fog, v_refl, v_texcoord0, v_lightmapUV, v_extra
+$input v_color0, v_color1, v_fog, v_refl, v_texcoord0, v_lightmapUV, v_extra, v_position, v_shadowDir
 
 #include <bgfx_shader.sh>
 #include <newb/main.sh>
+
+uniform vec4 CameraPosition;
 
 SAMPLER2D_AUTOREG(s_MatTexture);
 SAMPLER2D_AUTOREG(s_SeasonsTexture);
@@ -53,6 +55,44 @@ void main() {
       diffuse.rgb += v_refl.rgb*mask;
     }
   }
+
+  #ifdef NL_PLAYER_SHADOW
+    if (v_extra.b < 0.9 && v_shadowDir.z > 0.01) {
+      float shDy = abs(dFdy(v_extra.g));
+      if (shDy < 0.0002) {
+        vec3 shGPos = v_position + CameraPosition.xyz;
+        vec3 shFeet = CameraPosition.xyz;
+        shFeet.y -= NL_PLAYER_EYE_HEIGHT;
+
+        vec2 shRel = shGPos.xz - shFeet.xz;
+        vec2 shFwd = v_shadowDir.xy;
+        vec2 shRight = vec2(-shFwd.y, shFwd.x);
+
+        float shLf = dot(shRel, shFwd);
+        float shLr = dot(shRel, shRight);
+        float shLen = v_shadowDir.z;
+
+        if (shLf > -0.15 && shLf < shLen) {
+          float shV = clamp(shLf/shLen, 0.0, 1.0);
+          float shU = abs(shLr);
+
+          float shMask = 0.0;
+          if (shV < 0.22) {
+            float legU = abs(shU - NL_PLAYER_SHADOW_LEG_GAP);
+            shMask = step(legU, NL_PLAYER_SHADOW_LEG_WIDTH);
+          } else if (shV < 0.75) {
+            shMask = step(shU, NL_PLAYER_SHADOW_BODY_WIDTH);
+          } else {
+            shMask = step(shU, NL_PLAYER_SHADOW_HEAD_WIDTH);
+          }
+
+          float shFade = 1.0 - smoothstep(0.85, 1.0, shV);
+          shFade *= smoothstep(-0.15, 0.0, shLf);
+          diffuse.rgb *= 1.0 - shMask*shFade*NL_PLAYER_SHADOW_OPACITY;
+        }
+      }
+    }
+  #endif
 
   diffuse.rgb = mix(diffuse.rgb, v_fog.rgb, v_fog.a);
 

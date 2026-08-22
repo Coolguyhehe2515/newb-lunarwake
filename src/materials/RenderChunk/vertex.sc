@@ -2,7 +2,7 @@ $input a_color0, a_position, a_texcoord0, a_texcoord1
 #ifdef INSTANCING
   $input i_data0, i_data1, i_data2, i_data3
 #endif
-$output v_color0, v_color1, v_fog, v_refl, v_texcoord0, v_lightmapUV, v_extra
+$output v_color0, v_color1, v_fog, v_refl, v_texcoord0, v_lightmapUV, v_extra, v_position, v_shadowDir
 
 #include <bgfx_shader.sh>
 #include <newb/main.sh>
@@ -188,6 +188,21 @@ void main() {
   v_color0 = color;
   v_color1 = a_color0;
   v_fog = fogColor;
+  v_position = worldPos;
+
+  #ifdef NL_PLAYER_SHADOW
+    vec3 shadowLightDir = env.sunDir.y > 0.0 ? env.sunDir : env.moonDir;
+    float shadowHoriz = length(shadowLightDir.xz);
+    if (shadowHoriz > 0.001) {
+      vec2 shadowDir2D = -normalize(shadowLightDir.xz);
+      float shadowLen = clamp(NL_PLAYER_SHADOW_HEIGHT*shadowHoriz/max(shadowLightDir.y, 0.05), 0.0, NL_PLAYER_SHADOW_MAX_LENGTH);
+      v_shadowDir = vec3(shadowDir2D, shadowLen);
+    } else {
+      v_shadowDir = vec3(0.0, 0.0, 0.0);
+    }
+  #else
+    v_shadowDir = vec3(0.0, 0.0, 0.0);
+  #endif
 
   #else
 
