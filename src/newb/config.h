@@ -82,10 +82,10 @@
    TORCH COLORS
    ========================================================= */
 
-#define NL_OVERWORLD_TORCH_COL   vec3(1.0,0.52,0.18)
+#define NL_OVERWORLD_TORCH_COL   vec3(1.0,0.482,0.0)
 #define NL_UNDERWATER_TORCH_COL  vec3(1.0,0.52,0.18)
-#define NL_NETHER_TORCH_COL      vec3(1.0,0.52,0.18)
-#define NL_END_TORCH_COL         vec3(1.0,0.52,0.18)
+#define NL_NETHER_TORCH_COL      vec3(1.0,0.482,0.0)
+#define NL_END_TORCH_COL         vec3(1.0,0.482,0.0)
 
 
 /* =========================================================
@@ -105,20 +105,6 @@
 #define NL_SKY_VOID_FACTOR     0.5
 #define NL_SKY_VOID_DARKNESS   0.3
 #define NL_SKY_RAIN_MIX_FACTOR 0.9
-
-
-/*
-  SKY COLOR ORDER
-
-  Zenith  = TOP
-  Horizon = MIDDLE
-  Edge    = BOTTOM
-
-  Sunrise / Sunset reference:
-  - Zenith : warm dark orange / brown
-  - Horizon: orange / golden
-  - Edge   : bright golden yellow
-*/
 
 
 /* -------------------------
