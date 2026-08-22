@@ -225,11 +225,11 @@
 #define NL_SUN_PATH_TILT   31.0
 #define NL_MOON_PATH_TILT -28.0
 
-#define NL_SUN_TILT        45.0 // 0.0 no tilt ~ 90.0 tilt of 90 degrees
+#define NL_SUN_TILT        0.0 // 0.0 no tilt ~ 90.0 tilt of 90 degrees
 #define NL_SUN_TILT_DAWN   45.0 // 0.0 no tilt ~ 90.0 tilt of 90 degrees
 #define NL_SUN_TILT_DUSK   45.0 // 0.0 no tilt ~ 90.0 tilt of 90 degrees
 
-#define NL_MOON_TILT       45.0 // 0.0 no tilt ~ 90.0 tilt of 90 degrees
+#define NL_MOON_TILT       00.0 // 0.0 no tilt ~ 90.0 tilt of 90 degrees
 #define NL_MOON_TILT_DAWN  45.0 // 0.0 no tilt ~ 90.0 tilt of 90 degrees
 #define NL_MOON_TILT_DUSK  45.0 // 0.0 no tilt ~ 90.0 tilt of 90 degrees
 
@@ -241,8 +241,8 @@
 
 #define NL_PLAYER_EYE_HEIGHT 1.62        // camera height above feet, standing
 #define NL_PLAYER_SHADOW_HEIGHT 1.8      // caster height, controls length vs sun angle
-#define NL_PLAYER_SHADOW_MAX_LENGTH 6.0  // 2.0 short ~ 15.0 very long near sunset
-#define NL_PLAYER_SHADOW_OPACITY 0.55    // 0.0 invisible ~ 1.0 pure black
+#define NL_PLAYER_SHADOW_MAX_LENGTH 3.0  // 2.0 short ~ 15.0 very long near sunset
+#define NL_PLAYER_SHADOW_OPACITY 0.70    // 0.0 invisible ~ 1.0 pure black
 
 #define NL_PLAYER_SHADOW_LEG_GAP    0.13
 #define NL_PLAYER_SHADOW_LEG_WIDTH  0.12
@@ -251,7 +251,7 @@
 
 
 /* Fake godrays during sunrise/sunset */
-//#define NL_GODRAY 0.3 // [toggle] 0.1 subtle ~ 0.8 strong
+#define NL_GODRAY 0.8 // [toggle] 0.1 subtle ~ 0.8 strong
 
 
 /* Sky reflection */
