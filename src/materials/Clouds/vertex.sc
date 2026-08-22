@@ -54,32 +54,7 @@ void main() {
       worldPos = mul(model, vec4(pos, 1.0)).xyz;
 
       color.rgb = skycol.zenith + skycol.horizonEdge;
-      color.rgb += dot(color0 = color;
-    gl_Position = mul(u_viewProj, vec4(worldPos, 1.0));
-  #else
-    vec4 apos = vec4(pos.xz - 32.0, 1.0, 1.0);
-    apos.x *= pos.y - 0.5;
-    apos.xy = clamp(apos.xy, -1.0, 1.0);
-
-
-    #if BGFX_SHADER_LANGUAGE_GLSL
-      float h = model[3][1];
-    #else
-      float h = model[1][3];
-    #endif
-    h = clamp(0.002*h, 0.0, 1.0);
-
-
-    worldPos = mul(u_invViewProj, apos).xyz;
-
-
-    v_fogColor = FogColor.rgb;
-    v_color0 = vec4(worldPos, h*h);
-    v_color1 = vec4(skycol.zenith, rain);
-    v_color2 = vec4(skycol.horizonEdge, ViewPositionAndTime.w);
-    gl_Position = apos;
-  #endif
-}color.rgb, vec3(0.3,0.4,0.3))*a_position.y;
+      color.rgb += dot(color.rgb, vec3(0.3,0.4,0.3))*a_position.y;
       color.rgb *= 1.0 - 0.8*rain;
       color.rgb = colorCorrection(color.rgb);
       color.a = NL_CLOUD0_OPACITY * fog_fade(worldPos.xyz);
@@ -117,4 +92,39 @@ void main() {
         color.a *= NL_CLOUD1_OPACITY;
 
         #ifdef NL_AURORA
-  }
+          color += renderAurora(cloudPos, t, rain, FogColor.rgb)*(1.0-color.a);
+        #endif
+
+        color.a *= fade;
+        color.rgb = colorCorrection(color.rgb);
+      #else // NL_CLOUD_TYPE 2
+        v_fogColor = FogColor.rgb;
+        v_color1 = vec4(skycol.zenith, rain);
+        v_color2 = vec4(skycol.horizonEdge, ViewPositionAndTime.w);
+        color = vec4(worldPos, fade);
+      #endif 
+    #endif
+
+    v_color0 = color;
+    gl_Position = mul(u_viewProj, vec4(worldPos, 1.0));
+  #else
+    vec4 apos = vec4(pos.xz - 32.0, 1.0, 1.0);
+    apos.x *= pos.y - 0.5;
+    apos.xy = clamp(apos.xy, -1.0, 1.0);
+
+    #if BGFX_SHADER_LANGUAGE_GLSL
+      float h = model[3][1];
+    #else
+      float h = model[1][3];
+    #endif
+    h = clamp(0.002*h, 0.0, 1.0);
+
+    worldPos = mul(u_invViewProj, apos).xyz;
+
+    v_fogColor = FogColor.rgb;
+    v_color0 = vec4(worldPos, h*h);
+    v_color1 = vec4(skycol.zenith, rain);
+    v_color2 = vec4(skycol.horizonEdge, ViewPositionAndTime.w);
+    gl_Position = apos;
+  #endif
+}
