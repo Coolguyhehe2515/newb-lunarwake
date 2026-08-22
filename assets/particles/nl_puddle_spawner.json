@@ -1,0 +1,51 @@
+{
+  "format_version": "1.21.60",
+  "particle_effect": {
+    "description": {
+      "identifier": "newblunarwake:puddle_spawner",
+      "basic_render_parameters": {
+        "material": "particles_alpha",
+        "texture": "textures/particle/none"
+      }
+    },
+    "events": {
+      "spawn_puddle": {
+        "particle_effect": {
+          "effect": "newblunarwake:puddle",
+          "type": "particle"
+        }
+      }
+    },
+    "components": {
+      "minecraft:emitter_rate_manual": {
+        "max_particles": 1
+      },
+      "minecraft:emitter_shape_point": {
+        "offset": [0.0, -0.25, 0.0]
+      },
+      "minecraft:emitter_lifetime_expression": {
+        "activation_expression": 1,
+        "expiration_expression": 0
+      },
+      "minecraft:particle_lifetime_expression": {
+        "max_lifetime": "0.6"
+      },
+      "minecraft:particle_lifetime_events": {
+        "timeline": {
+          "0.4": "spawn_puddle"
+        }
+      },
+      "minecraft:particle_expire_if_in_blocks": [
+        "minecraft:water",
+        "minecraft:kelp",
+        "minecraft:seagrass",
+        "minecraft:oak_leaves",
+        "minecraft:spruce_leaves",
+        "minecraft:birch_leaves",
+        "minecraft:jungle_leaves",
+        "minecraft:acacia_leaves",
+        "minecraft:dark_oak_leaves"
+      ]
+    }
+  }
+}
