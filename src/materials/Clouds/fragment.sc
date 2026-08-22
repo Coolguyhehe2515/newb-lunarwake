@@ -11,34 +11,29 @@ $input v_color0
 
 uniform vec4 CameraPosition;
 
-#define NL_CLOUD_PARAMS(x) \
-  NL_CLOUD2##x##STEPS, \
-  NL_CLOUD2##x##THICKNESS, \
-  NL_CLOUD2##x##RAIN_THICKNESS, \
-  NL_CLOUD2##x##VELOCITY, \
-  NL_CLOUD2##x##SCALE, \
-  NL_CLOUD2##x##DENSITY, \
-  NL_CLOUD2##x##SHAPE
 
 void main() {
 
-  // ==========================================================
+  // ========================================================
   // VANILLA / SIMPLE CLOUDS
-  // ==========================================================
+  // ========================================================
 
   #if NL_CLOUD_TYPE == 0 || NL_CLOUD_TYPE == 1
 
-    gl_FragColor = v_color0;
+    gl_FragColor =
+      v_color0;
 
 
-  // ==========================================================
+  // ========================================================
   // ROUNDED CLOUDS
-  // ==========================================================
+  // ========================================================
 
   #elif NL_CLOUD_TYPE == 2
 
     vec3 vDir =
-      normalize(v_color0.xyz);
+      normalize(
+        v_color0.xyz
+      );
 
     vec3 cloudPos =
       v_color0.xyz;
@@ -54,14 +49,20 @@ void main() {
         v_color2.w,
         v_color2.rgb,
         v_color1.rgb,
-        NL_CLOUD_PARAMS(_)
+        NL_CLOUD2_STEPS,
+        NL_CLOUD2_THICKNESS,
+        NL_CLOUD2_RAIN_THICKNESS,
+        NL_CLOUD2_VELOCITY,
+        NL_CLOUD2_SCALE,
+        NL_CLOUD2_DENSITY,
+        NL_CLOUD2_SHAPE
       );
 
     #ifdef NL_CLOUD2_LAYER2
 
       vec2 parallax =
-        vDir.xz/
-        abs(vDir.y)*
+        vDir.xz /
+        abs(vDir.y) *
         NL_CLOUD2_LAYER2_OFFSET;
 
       vec3 offsetPos =
@@ -75,18 +76,25 @@ void main() {
           vDir,
           offsetPos,
           v_color1.a,
-          v_color2.a*2.0,
+          v_color2.a * 2.0,
           v_color2.rgb,
           v_color1.rgb,
-          NL_CLOUD_PARAMS(_LAYER2_)
+          NL_CLOUD2_LAYER2_STEPS,
+          NL_CLOUD2_LAYER2_THICKNESS,
+          NL_CLOUD2_LAYER2_RAIN_THICKNESS,
+          NL_CLOUD2_LAYER2_VELOCITY,
+          NL_CLOUD2_LAYER2_SCALE,
+          NL_CLOUD2_LAYER2_DENSITY,
+          NL_CLOUD2_LAYER2_SHAPE
         );
 
       color =
         mix(
           color2,
           color,
-          0.2+
-          0.8*color.a
+          0.2 +
+          0.8 *
+          color.a
         );
 
     #endif
@@ -97,11 +105,15 @@ void main() {
       color +=
         renderAurora(
           cloudPos,
-          v_color2.a,
-          v_color1.a,
+          v_color2.w,
+          v_color1.w,
           v_fogColor
-        )*
-        (1.0-0.95*color.a);
+        ) *
+        (
+          1.0 -
+          0.95 *
+          color.a
+        );
 
     #endif
 
@@ -117,29 +129,31 @@ void main() {
       color;
 
 
-  // ==========================================================
-  // VORONOI CLOUDS
-  // ==========================================================
+  // ========================================================
+  // REALISTIC CLOUDS
+  // ========================================================
 
   #elif NL_CLOUD_TYPE == 3
 
     vec3 vDir =
-      normalize(v_color0.xyz);
+      normalize(
+        v_color0.xyz
+      );
 
     vDir.xz *=
-      0.3+
+      0.3 +
       v_color0.w;
 
     vec2 p =
-      vDir.xz/
+      vDir.xz /
       (
-        0.015+
-        0.035*
+        0.015 +
+        0.035 *
         abs(vDir.y)
       );
 
     p +=
-      0.035*
+      0.035 *
       CameraPosition.xz;
 
     vec4 color =
@@ -154,7 +168,6 @@ void main() {
         NL_CLOUD3_SHADOW
       );
 
-
     #ifdef NL_AURORA
 
       p.xy *=
@@ -166,8 +179,12 @@ void main() {
           v_color2.w,
           v_color1.w,
           v_fogColor
-        )*
-        (1.0-0.95*color.a);
+        ) *
+        (
+          1.0 -
+          0.95 *
+          color.a
+        );
 
     #endif
 
@@ -187,16 +204,11 @@ void main() {
       color;
 
 
-  // ==========================================================
-  // LUNARWAKE CLOUDS
-  // ==========================================================
+  // ========================================================
+  // LUNARWAKE VOLUMETRIC CLOUDS
+  // ========================================================
 
   #elif NL_CLOUD_TYPE == 4
-
-    vec3 vDir =
-      normalize(
-        v_color0.xyz
-      );
 
     vec3 cloudPos =
       v_color0.xyz;
@@ -204,17 +216,19 @@ void main() {
     cloudPos.xz +=
       CameraPosition.xz;
 
+    // LunarWake volumetric rendering.
     vec4 color =
       renderCloudsLunarWake(
-        vec3(
-          v_color2.rgb,
-          0.0
-        ),
+        v_color1.rgb +
+        v_color2.rgb,
         cloudPos,
         v_color2.w,
         v_color1.w
       );
 
+    // Apply distance fade from vertex shader.
+    color.a *=
+      v_color0.w;
 
     #ifdef NL_AURORA
 
@@ -224,13 +238,14 @@ void main() {
           v_color2.w,
           v_color1.w,
           v_fogColor
-        )*
-        (1.0-0.95*color.a);
+        ) *
+        (
+          1.0 -
+          0.95 *
+          color.a
+        );
 
     #endif
-
-    color.a *=
-      v_color0.a;
 
     color.rgb =
       colorCorrection(
@@ -241,9 +256,9 @@ void main() {
       color;
 
 
-  // ==========================================================
+  // ========================================================
   // FALLBACK
-  // ==========================================================
+  // ========================================================
 
   #else
 
