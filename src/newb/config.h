@@ -365,7 +365,11 @@
    ========================================================= */
 
 #define NL_SUN_SIZE  1.0
+#define NL_SUN_SIZE_DAWN 1.0
+#define NL_SUN_SIZE_DUSK 1.0
 #define NL_MOON_SIZE 1.0
+#define NL_MOON_SIZE_DAWN 1.0
+#define NL_MOON_SIZE_DUSK 1.0
 
 #define NL_SUN_PATH_YAW  15.0
 #define NL_MOON_PATH_YAW 17.0
@@ -374,7 +378,30 @@
 #define NL_MOON_PATH_TILT -28.0
 
 #define NL_SUN_TILT  45.0
+#define NL_SUN_TILT_DAWN 45.0
+#define NL_SUN_TILT_DUSK 45.0
 #define NL_MOON_TILT 45.0
+#define NL_MOON_TILT_DAWN 45.0
+#define NL_MOON_TILT_DUSK 45.0
+
+#define NL_DAWN_DUSK_RANGE 0.03 // 0.01 narrow window ~ 0.1 wide window
+
+
+/* =========================================================
+   PLAYER SHADOW
+   ========================================================= */
+
+#define NL_PLAYER_SHADOW // [toggle] blocky fake shadow under the local player
+
+#define NL_PLAYER_EYE_HEIGHT 1.62        // camera height above feet, standing
+#define NL_PLAYER_SHADOW_HEIGHT 1.8      // caster height, controls length vs sun angle
+#define NL_PLAYER_SHADOW_MAX_LENGTH 6.0  // 2.0 short ~ 15.0 very long near sunset
+#define NL_PLAYER_SHADOW_OPACITY 0.55    // 0.0 invisible ~ 1.0 pure black
+
+#define NL_PLAYER_SHADOW_LEG_GAP    0.13
+#define NL_PLAYER_SHADOW_LEG_WIDTH  0.12
+#define NL_PLAYER_SHADOW_BODY_WIDTH 0.22
+#define NL_PLAYER_SHADOW_HEAD_WIDTH 0.16
 
 
 /* =========================================================
