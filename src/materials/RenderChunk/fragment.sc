@@ -77,16 +77,18 @@ void main() {
           float shU = abs(shLr);
 
           float shMask = 0.0;
-          if (shV < 0.22) {
+          if (shV < 0.5) {
             float legU = abs(shU - NL_PLAYER_SHADOW_LEG_GAP);
             shMask = step(legU, NL_PLAYER_SHADOW_LEG_WIDTH);
-          } else if (shV < 0.75) {
-            shMask = step(shU, NL_PLAYER_SHADOW_BODY_WIDTH);
+          } else if (shV < 0.88) {
+            float armU = abs(shU - NL_PLAYER_SHADOW_ARM_GAP);
+            float armMask = step(armU, NL_PLAYER_SHADOW_ARM_WIDTH);
+            shMask = max(step(shU, NL_PLAYER_SHADOW_BODY_WIDTH), armMask);
           } else {
             shMask = step(shU, NL_PLAYER_SHADOW_HEAD_WIDTH);
           }
 
-          float shFade = 1.0 - smoothstep(0.85, 1.0, shV);
+          float shFade = 1.0 - smoothstep(0.96, 1.0, shV);
           shFade *= smoothstep(-0.15, 0.0, shLf);
           diffuse.rgb *= 1.0 - shMask*shFade*NL_PLAYER_SHADOW_OPACITY;
         }
