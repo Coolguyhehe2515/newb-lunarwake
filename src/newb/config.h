@@ -244,7 +244,7 @@
 #define NL_SUN_TILT_DAWN 45.0      // 0.0 no tilt ~ 90.0 tilt of 90 degrees
 #define NL_SUN_TILT_DUSK 45.0      // 0.0 no tilt ~ 90.0 tilt of 90 degrees
 
-#define NL_MOON_TILT 0.0          // 0.0 no tilt ~ 90.0 tilt of 90 degrees
+#define NL_MOON_TILT 45.0          // 0.0 no tilt ~ 90.0 tilt of 90 degrees
 #define NL_MOON_TILT_DAWN 45.0     // 0.0 no tilt ~ 90.0 tilt of 90 degrees
 #define NL_MOON_TILT_DUSK 45.0     // 0.0 no tilt ~ 90.0 tilt of 90 degrees
 
@@ -255,7 +255,7 @@
    PLAYER SHADOW
    ========================================================= */
 
-#define NL_PLAYER_SHADOW // [toggle] blocky fake shadow under the local player
+//#define NL_PLAYER_SHADOW // [toggle] blocky fake shadow under the local player
 
 #define NL_PLAYER_EYE_HEIGHT 1.62        // camera height above feet, standing
 #define NL_PLAYER_SHADOW_HEIGHT 1.8      // caster height, controls length vs sun angle
