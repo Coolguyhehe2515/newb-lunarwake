@@ -147,11 +147,10 @@
 #define NL_CLOUD0_MULTILAYER         // [toggle] extra cloud layer
 
 
-/* Box cloud reflection */
-#define NL_CLOUDBOX_SCALE 0.02
-#define NL_CLOUDBOX_SPEED 0.04
-#define NL_CLOUDBOX_OCTAVES 3
-#define NL_CLOUDBOX_THRESHOLD 0.6
+/* Puffy cloud reflection (vibrant-style rounded clusters) */
+#define NL_CLOUDPUFF_SCALE 0.0025 // 0.0008 large clusters ~ 0.008 tiny clusters
+#define NL_CLOUDPUFF_SPEED 0.05   // 0.0 static ~ 0.3 fast moving
+#define NL_CLOUDPUFF_DENSITY 0.7  // 0.4 more clouds ~ 0.9 fewer clouds
 
 
 /* Soft cloud settings */
@@ -212,6 +211,16 @@
 #define NL_GALAXY_DAY_VISIBILITY 0.0    // 0.0 invisible - 1.0 visible
 
 
+/* Black hole (End sky only) */
+#define NL_BLACKHOLE                  // [toggle] noise based accretion disk in the End sky
+#define NL_BLACKHOLE_AZIMUTH    40.0  // 0.0 ~ 360.0 - horizontal direction
+#define NL_BLACKHOLE_ELEVATION  35.0  // -90.0 straight down ~ 90.0 straight up
+#define NL_BLACKHOLE_VOID_SIZE   5.0  // 1.0 tiny ~ 15.0 huge, angular size of the black center (degrees)
+#define NL_BLACKHOLE_DISK_SIZE   9.5  // must stay bigger than NL_BLACKHOLE_VOID_SIZE (degrees)
+#define NL_BLACKHOLE_SWIRL_SPEED 0.2  // 0.0 static ~ 0.5 fast swirl
+#define NL_BLACKHOLE_INTENSITY   3.3  // 0.5 dim ~ 5.0 very bright
+
+
 /* Chunk loading slide in animation */
 //#define NL_CHUNK_LOAD_ANIM 100.0 // [toggle] -600.0 fall from top ~ 600.0 rise from bottom
 
@@ -240,6 +249,25 @@
 #define NL_MOON_TILT_DUSK 45.0     // 0.0 no tilt ~ 90.0 tilt of 90 degrees
 
 #define NL_DAWN_DUSK_RANGE 0.03    // 0.01 narrow window ~ 0.1 wide window
+
+
+/* =========================================================
+   PLAYER SHADOW
+   ========================================================= */
+
+#define NL_PLAYER_SHADOW // [toggle] blocky fake shadow under the local player
+
+#define NL_PLAYER_EYE_HEIGHT 1.62        // camera height above feet, standing
+#define NL_PLAYER_SHADOW_HEIGHT 1.8      // caster height, controls length vs sun angle
+#define NL_PLAYER_SHADOW_MAX_LENGTH 6.0  // 2.0 short ~ 15.0 very long near sunset
+#define NL_PLAYER_SHADOW_OPACITY 0.55    // 0.0 invisible ~ 1.0 pure black
+
+#define NL_PLAYER_SHADOW_LEG_GAP    0.22 // distance of each leg from centerline
+#define NL_PLAYER_SHADOW_LEG_WIDTH  0.09
+#define NL_PLAYER_SHADOW_ARM_GAP    0.19 // distance of each arm from centerline
+#define NL_PLAYER_SHADOW_ARM_WIDTH  0.045
+#define NL_PLAYER_SHADOW_BODY_WIDTH 0.12
+#define NL_PLAYER_SHADOW_HEAD_WIDTH 0.12
 
 
 /* Fake godrays during sunrise/sunset */
