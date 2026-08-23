@@ -39,7 +39,7 @@
 
 
 /* Lighting */
-#define NL_SUNLIGHT_INTENSITY   3.3  // 1.0 weak ~ 5.0 bright
+#define NL_SUNLIGHT_INTENSITY   3.0  // 1.0 weak ~ 5.0 bright
 #define NL_TORCHLIGHT_INTENSITY 0.7  // 0.5 weak ~ 3.0 bright
 #define NL_SHADOW_INTENSITY     0.7  // 0.0 no shadow ~ 1.0 strong shadow
 #define NL_MIN_LIGHTING_BOOST   1.0  // 1.0 minimal lighting boost for dark areas ~ 3.0 brighter dark areas
@@ -59,7 +59,7 @@
 
 
 /* Torch colors */
-#define NL_OVERWORLD_TORCH_COL   vec3(1.0,0.482,0.0)
+#define NL_OVERWORLD_TORCH_COL   vec3(0.980,0.608,0.302)
 #define NL_UNDERWATER_TORCH_COL  vec3(1.0,0.52,0.18)
 #define NL_NETHER_TORCH_COL      vec3(1.0,0.482,0.0)
 #define NL_END_TORCH_COL         vec3(1.0,0.482,0.0)
