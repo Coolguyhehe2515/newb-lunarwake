@@ -151,6 +151,49 @@ vec3 renderEndSky(vec3 horizonCol, vec3 zenithCol, vec3 viewDir, float t) {
   return sky;
 }
 
+// black hole - procedural noise accretion disk, fixed direction in the sky
+// rgb = disk glow to add, a = void occlusion (blend background to black)
+vec4 renderBlackHole(vec3 viewDir, highp float t) {
+  vec3 bhDir = normalize(vec3(
+    cos(degToRad(NL_BLACKHOLE_ELEVATION))*sin(degToRad(NL_BLACKHOLE_AZIMUTH)),
+    sin(degToRad(NL_BLACKHOLE_ELEVATION)),
+    cos(degToRad(NL_BLACKHOLE_ELEVATION))*cos(degToRad(NL_BLACKHOLE_AZIMUTH))
+  ));
+
+  float angDist = acos(clamp(dot(viewDir, bhDir), -1.0, 1.0));
+  float voidR = degToRad(NL_BLACKHOLE_VOID_SIZE);
+  float diskR = degToRad(NL_BLACKHOLE_DISK_SIZE);
+
+  if (angDist > diskR) return vec4(0.0);
+
+  float voidMask = 1.0 - smoothstep(voidR*0.85, voidR, angDist);
+
+  if (angDist < voidR) return vec4(0.0, 0.0, 0.0, voidMask);
+
+  vec3 up = abs(bhDir.y) < 0.99 ? vec3(0.0,1.0,0.0) : vec3(1.0,0.0,0.0);
+  vec3 tx = normalize(cross(up, bhDir));
+  vec3 ty = cross(bhDir, tx);
+  vec2 local = vec2(dot(viewDir, tx), dot(viewDir, ty));
+  float ang = atan2(local.y, local.x);
+
+  float ringPos = clamp((angDist-voidR)/max(diskR-voidR, 0.0001), 0.0, 1.0);
+  float swirl = ang + NL_BLACKHOLE_SWIRL_SPEED*t/(0.3+ringPos);
+  float n = noise2D(vec2(swirl*2.5, ringPos*6.0));
+  n += 0.5*noise2D(vec2(swirl*6.0, ringPos*12.0));
+
+  float brightness = 1.0 - ringPos;
+  brightness *= brightness;
+  brightness *= 0.6 + 0.5*n;
+
+  vec3 hotCol = vec3(1.6,1.3,1.0);
+  vec3 coolCol = vec3(1.2,0.35,0.1);
+  vec3 col = mix(hotCol, coolCol, ringPos);
+
+  float edgeFade = smoothstep(diskR, diskR*0.9, angDist);
+
+  return vec4(col*brightness*NL_BLACKHOLE_INTENSITY*edgeFade, voidMask);
+}
+
 vec3 nlRenderSky(nl_skycolor skycol, nl_environment env, vec3 viewDir, float t, bool isSkyPlane) {
   vec3 sky;
   viewDir.y = -viewDir.y;

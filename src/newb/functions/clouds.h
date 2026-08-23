@@ -36,6 +36,64 @@ vec4 renderCloudsSimple(nl_skycolor skycol, vec3 pos, highp float t, float rain)
   return col;
 }
 
+// puffy cloud coverage - sdf rounded-cluster shapes, adapted from a shadertoy technique
+float cloudPuffyDensity(vec2 p, highp float t, float rain) {
+  highp float pt = t*NL_CLOUDPUFF_SPEED;
+  p *= NL_CLOUDPUFF_SCALE;
+
+  p *= 11.0;
+  p.y *= 2.0;
+  p -= pt;
+
+  float minDist = 1.0;
+  float shadeDist = 1.0;
+
+  for (int i = 0; i < 2; i++) {
+    p /= 1.005;
+    vec2 localUV = fract(p) - 0.5;
+    vec2 baseCell = floor(p);
+
+    vec2 cellOffset = vec2(localUV.x > 0.0 ? 0.0 : -1.0, localUV.y > 0.0 ? 0.0 : -1.0);
+
+    for (int dx = 0; dx <= 1; dx++) {
+      for (int dy = 0; dy <= 1; dy++) {
+        vec2 offset = cellOffset + vec2(float(dx), float(dy));
+        vec2 cellPos = baseCell + offset;
+
+        float density = noise2D(cellPos/2.8);
+        float c = step(NL_CLOUDPUFF_DENSITY, density*(1.0+0.3*rain));
+
+        vec2 lc = localUV - offset;
+
+        vec2 q = abs(lc) - 0.5;
+        float d = length(max(q, 0.0)) + min(max(q.x, q.y), 0.0) - 0.22;
+        minDist = min(minDist, mix(1.0, d, c));
+
+        vec2 lcShade = lc - vec2(0.01, 0.01);
+        vec2 qs = abs(lcShade) - 0.39;
+        float ds = length(max(qs, 0.0)) + min(max(qs.x, qs.y), 0.0) - 0.16;
+        shadeDist = min(shadeDist, mix(1.0, ds, c));
+      }
+    }
+  }
+
+  float px = 0.03;
+  float a = smoothstep(px, -px, minDist);
+  float shadeShape = smoothstep(px*8.0, -px*8.0, shadeDist);
+  a -= shadeShape*a*0.15;
+
+  return clamp(a, 0.0, 1.0);
+}
+
+// puffy clouds - vibrant-visuals-style rounded cluster shapes
+vec4 renderCloudsPuffy(nl_skycolor skycol, vec3 pos, highp float t, float rain) {
+  float d = cloudPuffyDensity(pos.xz, t, rain);
+  vec4 col = vec4(skycol.horizonEdge + skycol.zenith, d);
+  col.rgb += 1.5*dot(col.rgb, vec3(0.3,0.4,0.3))*(1.0-d)*col.a;
+  col.rgb *= 1.0 - 0.8*rain;
+  return col;
+}
+
 // rounded clouds
 
 // rounded clouds 3D density map
@@ -174,7 +232,11 @@ vec4 nlCloudAuroraReflection(nl_skycolor skycol, nl_environment env, vec3 viewDi
     refl = vec4(2.0*aurora.rgb*aurora.a, aurora.a);
   #endif
 
-  #if NL_CLOUD_TYPE == 1
+  #if NL_CLOUD_TYPE == 0
+    vec4 clouds = renderCloudsPuffy(skycol, cloudPos.xyy, t, env.rainFactor);
+    clouds.a *= fade;
+    refl = vec4(mix(refl.rgb, clouds.rgb, clouds.a), min(refl.a + clouds.a, 1.0));
+  #elif NL_CLOUD_TYPE == 1
     vec4 clouds = renderCloudsSimple(skycol, cloudPos.xyy, t, env.rainFactor);
     clouds.a *= fade;
     refl = vec4(mix(refl.rgb, clouds.rgb, clouds.a), min(refl.a + clouds.a, 1.0));
