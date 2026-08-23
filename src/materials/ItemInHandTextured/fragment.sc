@@ -26,6 +26,8 @@ void main() {
     }
   #endif
 
+  float isGlowPixel = step(0.9875, albedo.a) * (1.0 - step(0.9925, albedo.a));
+
   #ifdef MULTI_COLOR_TINT
     albedo = applyMultiColorChange(albedo, ChangeColor.rgb, MultiplicativeTintColor.rgb);
   #else
@@ -36,7 +38,12 @@ void main() {
 
   albedo = applyOverlayColor(albedo, OverlayColor);
 
+  vec3 unlitColor = albedo.rgb;
+
   albedo.rgb *= albedo.rgb * v_light.rgb;
+
+  vec3 glowColor = unlitColor * NL_GLOW_TEX;
+  albedo.rgb = mix(albedo.rgb, glowColor, isGlowPixel);
 
   albedo.rgb *= nlEntityEdgeHighlight(v_edgemap);
 
