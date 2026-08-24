@@ -137,7 +137,7 @@ void main() {
 
   float water = 0.0;
   vec4 refl = vec4(0.0,0.0,0.0,0.0);
-  #if defined(TRANSPARENT) && !(defined(RENDER_AS_BILLBOARDS) || defined(SEASONS))
+  #if !(defined(RENDER_AS_BILLBOARDS) || defined(SEASONS))
     color.a = mix(color.a, 1.0, 0.5*clamp(relativeDist, 0.0, 1.0));
     if (a_color0.b > 0.3 && a_color0.a < 0.95) {
       water = 1.0;
