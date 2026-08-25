@@ -10,6 +10,7 @@
   uniform vec4 Day;
   uniform vec4 FogColor;
   uniform vec4 FogAndDistanceControl;
+  uniform vec4 BiomeID;
 #endif
 
 // AURORA FUNCTION
@@ -77,6 +78,12 @@ void main() {
     nl_skycolor skycol = nlOverworldSkyColors(env);
 
     vec3 skyColor = nlRenderSky(skycol, env, -viewDir, v_underwaterRainTimeDay.z, true);
+    #ifdef NL_BIOME_FOG
+  if (!env.nether && !env.end) {
+    skyColor = nlBiomeFogColor(BiomeID.x, skyColor, env.rainFactor);
+  }
+#endif
+
     #ifdef NL_SHOOTING_STAR
       skyColor += NL_SHOOTING_STAR*nlRenderShootingStar(viewDir, env.fogCol, v_underwaterRainTimeDay.z);
     #endif
