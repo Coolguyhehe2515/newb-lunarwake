@@ -72,6 +72,19 @@
 #define NL_CLOUDY_FOG 0.1         // [toggle] 0.0 subtle - 0.8 dense fog clouds
 
 
+/* Biome fog tint - uses the real numeric BiomeID uniform, overworld only */
+#define NL_BIOME_FOG              // [toggle] tint fog color per-biome
+#define NL_BIOME_FOG_STRENGTH 0.5 // 0.0 no tint ~ 1.0 full biome color
+
+#define NL_SWAMP_FOG_COL      vec3(0.35,0.45,0.30) // swampland
+#define NL_JUNGLE_FOG_COL     vec3(0.25,0.65,0.20) // jungle
+#define NL_DESERT_FOG_COL     vec3(0.92,0.82,0.55) // desert
+#define NL_MESA_FOG_COL       vec3(0.78,0.60,0.40) // mesa/badlands
+#define NL_SNOWY_FOG_COL      vec3(0.80,0.85,0.95) // ice plains/mountains
+#define NL_MUSHROOM_FOG_COL   vec3(0.65,0.55,0.70) // mushroom island
+#define NL_DARKFOREST_FOG_COL vec3(0.25,0.30,0.20) // roofed/dark forest
+
+
 /* Sky */
 #define NL_SKY_VOID_FACTOR     0.5
 #define NL_SKY_VOID_DARKNESS   0.3
@@ -148,9 +161,10 @@
 
 
 /* Puffy cloud reflection (vibrant-style rounded clusters) */
-#define NL_CLOUDPUFF_SCALE 0.0025 // 0.0008 large clusters ~ 0.008 tiny clusters
-#define NL_CLOUDPUFF_SPEED 0.05   // 0.0 static ~ 0.3 fast moving
-#define NL_CLOUDPUFF_DENSITY 0.7  // 0.4 more clouds ~ 0.9 fewer clouds
+/* Box cloud reflection (blocky, hard-edged grid) */
+#define NL_CLOUDBOX_SCALE 0.03    // 0.01 big cells ~ 0.08 tiny cells
+#define NL_CLOUDBOX_SPEED 0.05    // 0.0 static ~ 0.3 fast moving
+#define NL_CLOUDBOX_THRESHOLD 0.6 // 0.3 more clouds ~ 0.8 less clouds
 
 
 /* Soft cloud settings */
@@ -211,6 +225,10 @@
 #define NL_GALAXY_DAY_VISIBILITY 0.0    // 0.0 invisible - 1.0 visible
 
 
+/* Sun/moon glow halo in sky gradient */
+#define NL_SUN_GLOW_NOON_SUPPRESS 1.0 // 0.0 keep glow at noon ~ 1.0 fully remove glow near noon (dawn/dusk unaffected)
+
+
 /* Black hole (End sky only) */
 #define NL_BLACKHOLE                  // [toggle] noise based accretion disk in the End sky
 #define NL_BLACKHOLE_AZIMUTH    40.0  // 0.0 ~ 360.0 - horizontal direction
@@ -244,7 +262,7 @@
 #define NL_SUN_TILT_DAWN 45.0      // 0.0 no tilt ~ 90.0 tilt of 90 degrees
 #define NL_SUN_TILT_DUSK 45.0      // 0.0 no tilt ~ 90.0 tilt of 90 degrees
 
-#define NL_MOON_TILT 45.0          // 0.0 no tilt ~ 90.0 tilt of 90 degrees
+#define NL_MOON_TILT 0.0          // 0.0 no tilt ~ 90.0 tilt of 90 degrees
 #define NL_MOON_TILT_DAWN 45.0     // 0.0 no tilt ~ 90.0 tilt of 90 degrees
 #define NL_MOON_TILT_DUSK 45.0     // 0.0 no tilt ~ 90.0 tilt of 90 degrees
 
@@ -255,7 +273,7 @@
    PLAYER SHADOW
    ========================================================= */
 
-//#define NL_PLAYER_SHADOW // [toggle] blocky fake shadow under the local player
+#define NL_PLAYER_SHADOW // [toggle] blocky fake shadow under the local player
 
 #define NL_PLAYER_EYE_HEIGHT 1.62        // camera height above feet, standing
 #define NL_PLAYER_SHADOW_HEIGHT 1.8      // caster height, controls length vs sun angle
