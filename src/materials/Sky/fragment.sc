@@ -7,7 +7,6 @@
 #ifndef INSTANCING
   #include <newb/main.sh>
   uniform vec4 TimeOfDay;
-  uniform vec4 Day;
   uniform vec4 FogColor;
   uniform vec4 FogAndDistanceControl;
   uniform vec4 BiomeID;
@@ -73,7 +72,7 @@ void main() {
     env.rainFactor = v_underwaterRainTimeDay.y;
     env.dayFactor = v_underwaterRainTimeDay.w;
     env.fogCol = FogColor.rgb;
-    env = calculateSunParams(env, TimeOfDay.x, Day.x);
+    env = calculateSunParams(env, TimeOfDay.x);
 
     nl_skycolor skycol = nlOverworldSkyColors(env);
 
