@@ -3,10 +3,10 @@ version = [1, 0, 0]
 min_supported_mc_version = [1, 26, 30]
 description = '''
 §c%w
-§7- A vanilla-styled Bedrock shader with reflective water!
+§7- A vanilla-styled Bedrock shader 
 %v
 ''' # %w = patch warning, %v = version
-authors = ["krispyBRN"]
+authors = "krispyBRN", "devendrn"
 url = "https://github.com/krispyBRN/newb-lunarwake"
 uuid = "3b499b88-7872-4db5-b18e-f52b7d96fb93"
 materials = ["Sky", "RenderChunk", "Actor", "ActorGlint", "ActorMultiTexture", "EndSky", "Clouds", "SunMoon", "Weather", "ItemInHandTextured", "ItemInHandColor", "ItemInHandColorGlint", "Stars"]
