@@ -9,7 +9,7 @@
   "default_texture": "",
   "unordered_access": false,
   "always_one": 1,
-  "texture_path": "textures/lynx/noisevoxel",
+  "texture_path": "textures/lynx/NoiseTex",
    "sampler_state": {
     "filter": "Bilinear",
     "wrapping": "Repeat"
