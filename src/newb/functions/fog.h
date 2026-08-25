@@ -15,8 +15,6 @@ float nlRenderFogFade(float relativeDist, vec3 FOG_COLOR, vec2 FOG_CONTROL) {
   #endif
 }
 
-// tints fog color per-biome, using the numeric BiomeID uniform
-// (legacy biome IDs, variants use ID+128 per vanilla convention)
 vec3 nlBiomeFogColor(float biomeId, vec3 baseColor, float rainFactor) {
   float baseId = biomeId >= 128.0 ? biomeId - 128.0 : biomeId;
   vec3 tint = baseColor;
