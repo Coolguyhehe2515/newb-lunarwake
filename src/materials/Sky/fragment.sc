@@ -93,7 +93,7 @@ void main() {
     // AURORA ACTIVATOR
     float dither = fract(sin(dot(gl_FragCoord.xy, vec2(12.9898, 78.233))) * 43758.5453);
     float mask = (1.0-1.0*env.rainFactor)*max(1.0 - 3.0*max(FogColor.b, FogColor.g), 0.0);
-    vec3 aurora = GetAurora(-viewDir, v_underwaterRainTimeDay.z, dither) * mask;
+    vec3 aurora = GetAurora(viewDir, v_underwaterRainTimeDay.z, dither) * mask;
     skyColor += aurora;
 
     skyColor = colorCorrection(skyColor);
