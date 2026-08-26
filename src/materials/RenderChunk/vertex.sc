@@ -13,6 +13,7 @@ uniform vec4 ViewPositionAndTime;
 uniform vec4 FogColor;
 uniform vec4 TimeOfDay;
 uniform vec4 CameraPosition;
+uniform vec4 BiomeID;
 
 SAMPLER2D_AUTOREG(s_MatTexture);
 SAMPLER2D_AUTOREG(s_LightMapTexture);
@@ -116,6 +117,11 @@ void main() {
 
   vec4 fogColor;
   fogColor.rgb = nlRenderSky(skycol, env, viewDir, t, true);
+  #ifdef NL_BIOME_FOG
+    if (!env.nether && !env.end) {
+      fogColor.rgb = nlBiomeFogColor(BiomeID.x, fogColor.rgb, env.rainFactor);
+    }
+  #endif
   fogColor.a = nlRenderFogFade(relativeDist, FogColor.rgb, FogAndDistanceControl.xy);
   #if defined(NL_GODRAY) && defined(NL_FOG)
     fogColor.a = mix(fogColor.a, 1.0, min(NL_GODRAY*nlRenderGodRayIntensity(cPos, worldPos, t, uv1, relativeDist, FogColor.rgb), 1.0));
