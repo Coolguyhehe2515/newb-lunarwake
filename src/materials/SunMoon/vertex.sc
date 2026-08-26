@@ -21,6 +21,14 @@ void main() {
     float st = 2.0*PI*TimeOfDay.x + 0.5*PI;
     bool isSun = dot(vec2(cos(st), sin(st)), dir) > 0.0;
 
+    float todDawn = abs(TimeOfDay.x - 0.75);
+    todDawn = min(todDawn, 1.0-todDawn);
+    float dawnBlend = 1.0 - smoothstep(0.0, NL_DAWN_DUSK_RANGE, todDawn);
+
+    float todDusk = abs(TimeOfDay.x - 0.25);
+    todDusk = min(todDusk, 1.0-todDusk);
+    float duskBlend = 1.0 - smoothstep(0.0, NL_DAWN_DUSK_RANGE, todDusk);
+
     float dist = 300.0;
     float angle = 0.0;
     float tilt = 0.0;
@@ -28,13 +36,26 @@ void main() {
     if (isSun) {
       dist = -dist;
       pos.x = -pos.x;
-      pos.xz *= NL_SUN_SIZE;
-      angle = degToRad(NL_SUN_TILT);
+
+      float sunSize = mix(NL_SUN_SIZE, NL_SUN_SIZE_DAWN, dawnBlend);
+      sunSize = mix(sunSize, NL_SUN_SIZE_DUSK, duskBlend);
+      pos.xz *= sunSize;
+
+      float sunTilt = mix(NL_SUN_TILT, NL_SUN_TILT_DAWN, dawnBlend);
+      sunTilt = mix(sunTilt, NL_SUN_TILT_DUSK, duskBlend);
+      angle = degToRad(sunTilt);
+
       tilt = degToRad( NL_SUN_PATH_TILT);
       yaw = degToRad(NL_SUN_PATH_YAW);
     } else {
-      pos.xz *= NL_MOON_SIZE;
-      angle = degToRad(NL_MOON_TILT);
+      float moonSize = mix(NL_MOON_SIZE, NL_MOON_SIZE_DAWN, dawnBlend);
+      moonSize = mix(moonSize, NL_MOON_SIZE_DUSK, duskBlend);
+      pos.xz *= moonSize;
+
+      float moonTilt = mix(NL_MOON_TILT, NL_MOON_TILT_DAWN, dawnBlend);
+      moonTilt = mix(moonTilt, NL_MOON_TILT_DUSK, duskBlend);
+      angle = degToRad(moonTilt);
+
       tilt = degToRad( NL_MOON_PATH_TILT);
       yaw = degToRad(NL_MOON_PATH_YAW);
     }
