@@ -95,11 +95,11 @@ Compiled material.bin files will be inside `build/<platform>/`
 
 **Command usage:**
 ```
-usage: build mats [-h] [-p {android,windows,merged,ios}] [-m M [M ...]] [-s S]
+usage: build mats [-h] [-p {android,windows,ios,multiplatform}] [-m M [M ...]] [-s S]
 
 options:
   -h, --help            show this help message and exit
-  -p {android,windows,merged,ios}
+  -p {android,windows,multiplatform,ios}
                         build profile
   -m M [M ...]          build materials (eg: Sky)
   -s S                  subpack config to use (eg: NO_WAVE)
@@ -114,11 +114,11 @@ The final mcpack will be inside `build/`.
 
 **Command usage:**
 ```
-usage: build pack [-h] [-p {android,windows,merged,ios}] [--no-zip] [--no-label] [-v V]
+usage: build pack [-h] [-p {android,windows,ios,multiplatform}] [--no-zip] [--no-label] [-v V]
 
 options:
   -h, --help            show this help message and exit
-  -p {android,windows,merged,ios}
+  -p {android,windows,multiplatform,ios}
                         build profile
   --no-zip              don't make archive
   --no-label            don't label materials
