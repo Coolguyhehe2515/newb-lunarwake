@@ -17,6 +17,12 @@ void main() {
     vec3 color = renderEndSky(getEndHorizonCol(), getEndZenithCol(), normalize(v_posTime.xyz), v_posTime.w);
     color += 2.8*diffuse.rgb; // stars
 
+    #ifdef NL_BLACKHOLE
+      vec4 blackhole = renderBlackHole(normalize(v_posTime.xyz), v_posTime.w);
+      color = mix(color, vec3(0.0), blackhole.a);
+      color += blackhole.rgb;
+    #endif
+
     color = colorCorrection(color);
 
     gl_FragColor = vec4(color, 1.0);

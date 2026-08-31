@@ -36,6 +36,22 @@ vec4 renderCloudsSimple(nl_skycolor skycol, vec3 pos, highp float t, float rain)
   return col;
 }
 
+// box cloud coverage - single hard-edged grid, clean blocky read
+float cloudBoxDensity(vec2 p, highp float t, float rain) {
+  t *= NL_CLOUDBOX_SPEED;
+  p = p*NL_CLOUDBOX_SCALE + t;
+  return step(NL_CLOUDBOX_THRESHOLD, rand(floor(p))*(1.0+0.3*rain));
+}
+
+// box clouds
+vec4 renderCloudsBox(nl_skycolor skycol, vec3 pos, highp float t, float rain) {
+  float d = cloudBoxDensity(pos.xz, t, rain);
+  vec4 col = vec4(skycol.horizonEdge + skycol.zenith, d);
+  col.rgb += 1.5*dot(col.rgb, vec3(0.3,0.4,0.3))*(1.0-d)*col.a;
+  col.rgb *= 1.0 - 0.8*rain;
+  return col;
+}
+
 // rounded clouds
 // rounded clouds 3D density map
 float cloudDf(vec3 pos, float rain, vec2 boxiness) {
@@ -175,7 +191,11 @@ vec4 nlCloudAuroraReflection(nl_skycolor skycol, nl_environment env, vec3 viewDi
     refl = vec4(2.0*aurora.rgb*aurora.a, aurora.a);
   #endif
 
-  #if NL_CLOUD_TYPE == 1
+  #if NL_CLOUD_TYPE == 0
+    vec4 clouds = renderCloudsBox(skycol, cloudPos.xyy, t, env.rainFactor);
+    clouds.a *= fade;
+    refl = vec4(mix(refl.rgb, clouds.rgb, clouds.a), min(refl.a + clouds.a, 1.0));
+  #elif NL_CLOUD_TYPE == 1
     vec4 clouds = renderCloudsSimple(skycol, cloudPos.xyy, t, env.rainFactor);
     clouds.a *= fade;
     refl = vec4(mix(refl.rgb, clouds.rgb, clouds.a), min(refl.a + clouds.a, 1.0));

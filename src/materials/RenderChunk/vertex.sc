@@ -2,7 +2,7 @@ $input a_color0, a_position, a_texcoord0, a_texcoord1
 #ifdef INSTANCING
   $input i_data0, i_data1, i_data2, i_data3
 #endif
-$output v_color0, v_color1, v_fog, v_refl, v_texcoord0, v_lightmapUV, v_extra
+$output v_color0, v_color1, v_fog, v_refl, v_texcoord0, v_lightmapUV, v_extra, v_position, v_shadowDir
 
 #include <bgfx_shader.sh>
 #include <newb/main.sh>
@@ -13,6 +13,7 @@ uniform vec4 ViewPositionAndTime;
 uniform vec4 FogColor;
 uniform vec4 TimeOfDay;
 uniform vec4 CameraPosition;
+uniform vec4 BiomeID;
 
 SAMPLER2D_AUTOREG(s_MatTexture);
 SAMPLER2D_AUTOREG(s_LightMapTexture);
@@ -116,6 +117,11 @@ void main() {
 
   vec4 fogColor;
   fogColor.rgb = nlRenderSky(skycol, env, viewDir, t, true);
+  #ifdef NL_BIOME_FOG
+    if (!env.nether && !env.end) {
+      fogColor.rgb = nlBiomeFogColor(BiomeID.x, fogColor.rgb, env.rainFactor);
+    }
+  #endif
   fogColor.a = nlRenderFogFade(relativeDist, FogColor.rgb, FogAndDistanceControl.xy);
   #if defined(NL_GODRAY) && defined(NL_FOG)
     fogColor.a = mix(fogColor.a, 1.0, min(NL_GODRAY*nlRenderGodRayIntensity(cPos, worldPos, t, uv1, relativeDist, FogColor.rgb), 1.0));
@@ -135,7 +141,7 @@ void main() {
 
   float water = 0.0;
   vec4 refl = vec4(0.0,0.0,0.0,0.0);
-  #if defined(TRANSPARENT) && !(defined(RENDER_AS_BILLBOARDS) || defined(SEASONS))
+  #if !(defined(RENDER_AS_BILLBOARDS) || defined(SEASONS))
     color.a = mix(color.a, 1.0, 0.5*clamp(relativeDist, 0.0, 1.0));
     if (a_color0.b > 0.3 && a_color0.a < 0.95) {
       water = 1.0;
@@ -186,6 +192,21 @@ void main() {
   v_color0 = color;
   v_color1 = a_color0;
   v_fog = fogColor;
+  v_position = worldPos;
+
+  #ifdef NL_PLAYER_SHADOW
+    vec3 shadowLightDir = env.sunDir.y > 0.0 ? env.sunDir : env.moonDir;
+    float shadowHoriz = length(shadowLightDir.xz);
+    if (shadowHoriz > 0.001) {
+      vec2 shadowDir2D = -normalize(shadowLightDir.xz);
+      float shadowLen = clamp(NL_PLAYER_SHADOW_HEIGHT*shadowHoriz/max(shadowLightDir.y, 0.05), 0.0, NL_PLAYER_SHADOW_MAX_LENGTH);
+      v_shadowDir = vec3(shadowDir2D, shadowLen);
+    } else {
+      v_shadowDir = vec3(0.0, 0.0, 0.0);
+    }
+  #else
+    v_shadowDir = vec3(0.0, 0.0, 0.0);
+  #endif
 
   #else
 

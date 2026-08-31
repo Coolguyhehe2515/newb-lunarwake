@@ -15,6 +15,34 @@ float nlRenderFogFade(float relativeDist, vec3 FOG_COLOR, vec2 FOG_CONTROL) {
   #endif
 }
 
+vec3 nlBiomeFogColor(float biomeId, vec3 baseColor, float rainFactor) {
+  float baseId = biomeId >= 128.0 ? biomeId - 128.0 : biomeId;
+  vec3 tint = baseColor;
+  bool matched = true;
+
+  if (baseId == 6.0) {
+    tint = NL_SWAMP_FOG_COL;
+  } else if (baseId == 21.0 || baseId == 22.0 || baseId == 23.0) {
+    tint = NL_JUNGLE_FOG_COL;
+  } else if (baseId == 2.0 || baseId == 17.0) {
+    tint = NL_DESERT_FOG_COL;
+  } else if (baseId == 37.0 || baseId == 38.0 || baseId == 39.0) {
+    tint = NL_MESA_FOG_COL;
+  } else if (baseId == 12.0 || baseId == 13.0) {
+    tint = NL_SNOWY_FOG_COL;
+  } else if (baseId == 14.0 || baseId == 15.0) {
+    tint = NL_MUSHROOM_FOG_COL;
+  } else if (baseId == 29.0) {
+    tint = NL_DARKFOREST_FOG_COL;
+  } else {
+    matched = false;
+  }
+
+  if (!matched) return baseColor;
+  float strength = NL_BIOME_FOG_STRENGTH*(1.0-0.5*rainFactor);
+  return mix(baseColor, tint, strength);
+}
+
 float nlRenderGodRayIntensity(vec3 cPos, vec3 worldPos, float t, vec2 uv1, float relativeDist, vec3 FOG_COLOR) {
   // offset wPos (only works upto 16 blocks)
   vec3 offset = cPos - 16.0*fract(worldPos*0.0625);
